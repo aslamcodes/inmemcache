@@ -1,9 +1,13 @@
-package main
+package cache_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aslamcodes/inmemcache/cache"
+)
 
 func TestGet(t *testing.T) {
-	cache := NewCache[string, int]()
+	cache := cache.NewCache[string, int]()
 	cache.Set("a", 1)
 
 	got, ok := cache.Get("a")
@@ -21,7 +25,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	cache := NewCache[string, int]()
+	cache := cache.NewCache[string, int]()
 	cache.Set("a", 1)
 	cache.Set("a", 2)
 
@@ -35,7 +39,7 @@ func TestSet(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	cache := NewCache[string, int]()
+	cache := cache.NewCache[string, int]()
 	cache.Set("a", 1)
 	cache.Delete("a")
 
