@@ -18,7 +18,8 @@ Each is a distinct piece of learning: generics + concurrency (library), networki
 - [x] Generics — `Cache[K comparable, V any]`
 - [x] `Cache` struct, `Get`/`Set`/`Delete` on a plain map, table-driven tests
 - [x] Concurrency-safe (`sync.RWMutex`) — reproduce and understand the unsafe-map crash first
-- [ ] TTL — `SetWithTTL`, lazy expiry on read, background sweeper goroutine with graceful shutdown (`context` + `sync.WaitGroup`)
+- [x] TTL — `SetWithTTL`, lazy expiry on read
+- [ ] TTL — background sweeper goroutine with graceful shutdown (`context` + `sync.WaitGroup`)
 - [ ] Eviction policy — capacity limit + LRU (doubly linked list + map) behind an interface so policies are pluggable
 - [ ] Sharding to reduce lock contention; benchmark before/after with `go test -bench` / `pprof`
 

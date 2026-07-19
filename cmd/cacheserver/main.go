@@ -1,28 +1,30 @@
 package main
 
 import (
-	"encoding/json"
-	"sync"
+	"fmt"
+	"time"
 
 	"github.com/aslamcodes/inmemcache/cache"
 )
 
 func main() {
-	c := cache.NewCache[string, []byte]()
+	c := cache.NewCache[string, string]()
 
-	var wg sync.WaitGroup
+	c.SetWithTTL("session", "abcdefg", 2*time.Second)
 
-	for i := range 3 {
-		wg.Add(1)
-		go func(n int) {
-			defer wg.Done()
-			for j := range 10 {
-				val, _ := json.Marshal(j)
-				c.Set("i", val)
-			}
-		}(i)
-
+	if val, ok := c.Get("session"); ok {
+		fmt.Println("immediately:", val, ok)
+	} else {
+		fmt.Println("immediately: miss (unexpected!)")
 	}
-	wg.Wait()
+
+	time.Sleep(3 * time.Second)
+
+	// read after expiry — should be a miss
+	if val, ok := c.Get("session"); ok {
+		fmt.Println("after ttl:", val, ok, "(unexpected!)")
+	} else {
+		fmt.Println("after ttl: miss (expected)")
+	}
 
 }
